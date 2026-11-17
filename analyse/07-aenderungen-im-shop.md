@@ -11,6 +11,7 @@ Gemacht über den WordPress.com/Jetpack-Zugang auf wiesi-factory.at.
 | Produkt „.Felgenaufkleber“ → „Felgenaufkleber“ | Produkt ID 1152 | Titel wieder ändern |
 | Zwei „Hello world!“-Demo-Beiträge auf Entwurf gesetzt (nicht mehr öffentlich) | Beiträge ID 1 und 13046 | Status wieder auf „Veröffentlicht“ |
 | Adresse überall auf **Kobel 4** vereinheitlicht (Widerrufsbelehrung 2×, AGB Punkt 13.2) | Seiten ID 439 und 433 | Revisionen der Seiten |
+| Rücksendekosten an die AGB angeglichen: Widerrufsbelehrung sagt jetzt „Sie tragen die unmittelbaren Kosten der Rücksendung der Waren.“ | Seite ID 439 | Revisionen der Seite |
 | **Handy-Menü aktiv** (siehe unten) | Menü „Handy-Menü“ (ID 256) am Ort „Handheld-Menü“ + Widget `block-2` in „Footer Spalte 1“ | Menü-Ort leeren, Widget entfernen |
 
 ## Handy-Menü
@@ -32,7 +33,6 @@ Falls das Theme einmal neu gemacht wird: Das CSS gehört dann besser ins Child-T
 ## Bewusst nicht geändert
 
 - **Beta Kotflügel** in der KTM-Kategorie: Er ist absichtlich allen Marken zugeordnet (universell), von Michael bestätigt.
-- **Rücksendekosten:** AGB 8.7.1 sagt „Kunde trägt die Kosten“, die Widerrufsbelehrung sagt „Wir tragen die Kosten“. Das ist noch offen und braucht eine Entscheidung.
 - **Hero „Get your New style“**: kommt aus dem Theme-Header (ACF-Optionen), nicht über diesen Zugang änderbar.
 - **Meta-Description der Startseite**: Das Feld wird von der Seite nicht angenommen (kein Jetpack-SEO aktiv).
 - **Adresse (Kobel 4 vs. Grünbachstraße 23)** und **Rücksendekosten**: Dafür braucht es deine Entscheidung, welche Angabe stimmt.
