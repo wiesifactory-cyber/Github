@@ -12,6 +12,7 @@ Gemacht über den WordPress.com/Jetpack-Zugang auf wiesi-factory.at.
 | Zwei „Hello world!“-Demo-Beiträge auf Entwurf gesetzt (nicht mehr öffentlich) | Beiträge ID 1 und 13046 | Status wieder auf „Veröffentlicht“ |
 | Adresse überall auf **Kobel 4** vereinheitlicht (Widerrufsbelehrung 2×, AGB Punkt 13.2) | Seiten ID 439 und 433 | Revisionen der Seiten |
 | Rücksendekosten an die AGB angeglichen: Widerrufsbelehrung sagt jetzt „Sie tragen die unmittelbaren Kosten der Rücksendung der Waren.“ | Seite ID 439 | Revisionen der Seite |
+| „Orange-Spark SMC“ → **„Havoc SMC“** (Adresse `/produkt/havoc-smc/`, alte Adresse leitet per 301 weiter), Bild-Alt-Texte angepasst. Das Semi-Custom-„Havoc“ war schon umbenannt. | Produkt ID 11148, Bilder 11149/11150 | Titel/Slug zurück |
 | **Handy-Menü aktiv** (siehe unten) | Menü „Handy-Menü“ (ID 256) am Ort „Handheld-Menü“ + Widget `block-2` in „Footer Spalte 1“ | Menü-Ort leeren, Widget entfernen |
 
 ## Handy-Menü
@@ -35,5 +36,5 @@ Falls das Theme einmal neu gemacht wird: Das CSS gehört dann besser ins Child-T
 - **Beta Kotflügel** in der KTM-Kategorie: Er ist absichtlich allen Marken zugeordnet (universell), von Michael bestätigt.
 - **Hero „Get your New style“**: kommt aus dem Theme-Header (ACF-Optionen), nicht über diesen Zugang änderbar.
 - **Meta-Description der Startseite**: Das Feld wird von der Seite nicht angenommen (kein Jetpack-SEO aktiv).
-- **Newsletter-Seite, Updraft-Central-Seite, Testprodukt „Buddy TEST“, „Orange Spark“**: Für diese Punkte braucht es deine Entscheidung.
+- **Newsletter-Seite, Updraft-Central-Seite, Testprodukt „Buddy TEST“**: Für diese Punkte braucht es deine Entscheidung.
 - **Preisformat, Versandschwelle, Produkt-Attribute, Cookie-Einstellungen, Bilder**: WooCommerce- bzw. Plugin-Einstellungen, über diesen Zugang nicht erreichbar.
