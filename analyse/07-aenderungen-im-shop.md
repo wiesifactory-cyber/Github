@@ -35,6 +35,5 @@ Falls das Theme einmal neu gemacht wird: Das CSS gehört dann besser ins Child-T
 - **Beta Kotflügel** in der KTM-Kategorie: Er ist absichtlich allen Marken zugeordnet (universell), von Michael bestätigt.
 - **Hero „Get your New style“**: kommt aus dem Theme-Header (ACF-Optionen), nicht über diesen Zugang änderbar.
 - **Meta-Description der Startseite**: Das Feld wird von der Seite nicht angenommen (kein Jetpack-SEO aktiv).
-- **Adresse (Kobel 4 vs. Grünbachstraße 23)** und **Rücksendekosten**: Dafür braucht es deine Entscheidung, welche Angabe stimmt.
 - **Newsletter-Seite, Updraft-Central-Seite, Testprodukt „Buddy TEST“, „Orange Spark“**: Für diese Punkte braucht es deine Entscheidung.
 - **Preisformat, Versandschwelle, Produkt-Attribute, Cookie-Einstellungen, Bilder**: WooCommerce- bzw. Plugin-Einstellungen, über diesen Zugang nicht erreichbar.
