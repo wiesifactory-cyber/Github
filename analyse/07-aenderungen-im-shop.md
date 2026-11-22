@@ -15,6 +15,8 @@ Gemacht über den WordPress.com/Jetpack-Zugang auf wiesi-factory.at.
 | „Orange-Spark SMC“ → **„Havoc SMC“** (Adresse `/produkt/havoc-smc/`, alte Adresse leitet per 301 weiter), Bild-Alt-Texte angepasst. Das Semi-Custom-„Havoc“ war schon umbenannt. | Produkt ID 11148, Bilder 11149/11150 | Titel/Slug zurück |
 | Testprodukt „Buddy TEST Bikeauswahl“ auf **Privat** gesetzt (nur eingeloggt als Admin sichtbar, für alle anderen 404) | Produkt ID 15589 | Status wieder auf „Veröffentlicht“ |
 | Newsletter-Seite auf **Entwurf** gesetzt (Newsletter noch nicht aktiv) | Seite ID 13181 | Status wieder auf „Veröffentlicht“ |
+| **Plugin „Wiesi Factory Consent & Fonts“** installiert und aktiv: Meta-Pixel, Jetpack-Statistik und WooCommerce-Analytics laden erst nach Zustimmung im DataReporter-Banner. Google- und Bunny-Schriften sind durch lokale Dateien ersetzt. Live getestet auf Start- und Produktseite: vor der Zustimmung 0 Verbindungen zu Facebook, `stats.wp.com` und Google, danach Pixel aktiv, keine JS-Fehler. Quellcode in `plugins/wf-consent/`. | Plugin `wf-consent` | Plugin deaktivieren |
+| WordPress-Adresse auf `https://` (von Michael gespeichert, Jetpack abgeglichen) | Einstellungen → Allgemein | – |
 | **Handy-Menü aktiv** (siehe unten) | Menü „Handy-Menü“ (ID 256) am Ort „Handheld-Menü“ + Widget `block-2` in „Footer Spalte 1“ | Menü-Ort leeren, Widget entfernen |
 
 ## Handy-Menü
