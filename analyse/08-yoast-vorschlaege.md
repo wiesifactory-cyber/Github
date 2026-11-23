@@ -1,6 +1,6 @@
 # Vorschlag: Google-Titel und -Beschreibungen (Yoast)
 
-Stand: 22.11.2026 · Noch nicht im Shop, wird erst nach Freigabe übernommen.
+Stand: 23.11.2026 · Von Michael freigegeben und im Shop übernommen.
 
 ## Startseite
 
