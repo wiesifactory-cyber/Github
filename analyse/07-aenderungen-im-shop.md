@@ -39,7 +39,15 @@ Falls das Theme einmal neu gemacht wird: Das CSS gehört dann besser ins Child-T
 ## Bewusst nicht geändert
 
 - **Beta Kotflügel** in der KTM-Kategorie: Er ist absichtlich allen Marken zugeordnet (universell), von Michael bestätigt.
-- **Hero „Get your New style“**: kommt aus dem Theme-Header (ACF-Optionen), nicht über diesen Zugang änderbar.
+- **Hero „Get your New style – AND BE DIFFERENT!“**: bleibt bewusst (Michaels Botschaft). Es wird an einer neuen Startseite gearbeitet, daher vorerst keine Änderung am Startbild.
 - **Meta-Description der Startseite**: Das Feld wird von der Seite nicht angenommen (kein Jetpack-SEO aktiv).
 - **Updraft-Central-Seite**: bleibt, falls die Backup-Fernsteuerung genutzt wird.
 - **Preisformat, Versandschwelle, Produkt-Attribute, Cookie-Einstellungen, Bilder**: WooCommerce- bzw. Plugin-Einstellungen, über diesen Zugang nicht erreichbar.
+
+## Hinweise für die neue Startseite
+
+Damit beim Umbau nichts verloren geht:
+- **Handy-Menü:** Das CSS steckt im Widget `block-2` in „Footer Spalte 1“. Wenn das neue Design den Footer oder das Theme austauscht, muss das CSS mit (Datei `handy-menue-fix.css`). Sonst steht das Handy-Menü wieder offen über der Seite.
+- **Consent-Plugin `wf-consent`:** Es ist unabhängig vom Theme und funktioniert weiter. Neue Tracking-Skripte (z. B. TikTok, Google Ads) müssen ebenfalls mit `type="text/plain" data-webcare="marketing"` eingebunden werden, sonst laden sie vor der Zustimmung.
+- **Schriften:** Lokal liegen Source Sans Pro, Barlow und Barlow Condensed. Neue Google-Schriften bitte ebenfalls lokal einbinden, nicht über fonts.googleapis.com.
+- **Startseiten-Titel und -Beschreibung (Yoast)** bleiben erhalten, solange die neue Startseite dieselbe Seite (ID 414) ist. Bei einer neuen Seite müssen sie dort neu gesetzt werden.
