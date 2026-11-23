@@ -19,6 +19,8 @@ Gemacht über den WordPress.com/Jetpack-Zugang auf wiesi-factory.at.
 | WordPress-Adresse auf `https://` (von Michael gespeichert, Jetpack abgeglichen) | Einstellungen → Allgemein | – |
 | **Yoast: Google-Titel und -Beschreibungen** für Startseite und 57 Produktkategorien gesetzt (statt „… Archive“, Fremdmarken aus der Semi-Custom-Beschreibung entfernt). Uncategorized, Felgen und Schwingendekor auf noindex. Liste: `analyse/08-yoast-vorschlaege.md`. Live geprüft. | Yoast je Kategorie | Felder in Yoast leeren |
 | **Preisformat** auf „189,99 €“ umgestellt (Währung rechts mit Leerzeichen, Komma als Dezimal-, Punkt als Tausendertrennzeichen) über das Einmal-Plugin `wf-preisformat` (danach deaktiviert, alte Werte in Option `wf_preisformat_backup`). Konfigurator live geprüft: 189,99 + 49,99 + 39,99 = 279,97 €, keine JS-Fehler. | WooCommerce → Einstellungen → Allgemein | dort Währungsposition „Links“, Dezimal „.“, Tausender „,“ |
+| **AGB 3.5 Zahlungsarten** an den Checkout angeglichen: PayPal, Kredit- und Debitkarte, Klarna, Apple Pay und Google Pay (statt „Sofort Überweisung“). | Seite AGB (ID 433) | Revisionen der Seite |
+| **Plugin „Wiesi Factory Shop-Infos“**: (1) Auf Semi-Custom-Produkten steht unter dem Preis „Lieferung 14–20 Tage nach deiner Freigabe · Gratisversand ab 300 € (AT/EU)“. Texte und Kategorien oben in `plugins/wf-shop-infos/wf-shop-infos.php`. (2) Kundenvideos im CusRev-Bewertungsslider laden erst beim Antippen (`preload=none`): Die Startseite lädt kein 11-MB-.mov mehr. Live geprüft, keine JS-Fehler. | Plugin `wf-shop-infos` | Plugin deaktivieren |
 | **Handy-Menü aktiv** (siehe unten) | Menü „Handy-Menü“ (ID 256) am Ort „Handheld-Menü“ + Widget `block-2` in „Footer Spalte 1“ | Menü-Ort leeren, Widget entfernen |
 
 ## Handy-Menü
