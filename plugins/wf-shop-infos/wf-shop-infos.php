@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Wiesi Factory Shop-Infos
  * Description: Zeigt auf Semi-Custom-Dekorseiten unter dem Preis Lieferzeit und Gratisversand-Schwelle an und lädt Kundenvideos im CusRev-Bewertungsslider erst beim Antippen (spart ca. 11 MB auf der Startseite).
- * Version: 1.0.0
+ * Version: 1.1.0
  * Author: Wiesi Factory
  */
 
@@ -97,6 +97,83 @@ add_action(
 	function () {
 		?>
 <style id="wf-shop-infos-video">.image-row-vid[preload="none"]{background:#1d2b3a}</style>
+		<?php
+	},
+	100
+);
+
+/* ---------------------------------------------------------------------
+ * 3) Einmalig: falsches Attribut "Verkleidung" bei den Scheinwerfern entfernen
+ *    (war beim Kopieren von einem Plastics-Produkt mitgekommen; alle betroffenen
+ *    Produkte sind einfache Produkte, das Attribut wird für keine Variante genutzt).
+ *    Ergebnis steht in der Option "wf_shop_infos_attr_fix_log".
+ * ------------------------------------------------------------------ */
+add_action(
+	'init',
+	function () {
+		if ( get_option( 'wf_shop_infos_attr_fix_done' ) || ! function_exists( 'wc_get_product' ) ) {
+			return;
+		}
+		update_option( 'wf_shop_infos_attr_fix_done', 1, false ); // sofort sperren, damit es nie doppelt läuft.
+
+		$ids = array( 12451, 12447, 12442, 11658, 11649, 11642, 11633, 11628, 11622, 11612, 11606, 11600, 11592, 11588, 11578, 11572, 11567, 11548, 11547, 11541, 11536, 12455 );
+		$log = array();
+		foreach ( $ids as $id ) {
+			$product = wc_get_product( $id );
+			if ( ! $product || ! $product->is_type( 'simple' ) ) {
+				continue;
+			}
+			$attrs   = $product->get_attributes();
+			$changed = false;
+			foreach ( $attrs as $key => $attr ) {
+				$label = $attr->is_taxonomy() ? wc_attribute_label( $attr->get_name() ) : $attr->get_name();
+				if ( 'verkleidung' === strtolower( trim( $label ) ) ) {
+					if ( $attr->is_taxonomy() ) {
+						wp_delete_object_term_relationships( $id, $attr->get_name() );
+					}
+					unset( $attrs[ $key ] );
+					$changed = true;
+				}
+			}
+			if ( $changed ) {
+				$product->set_attributes( $attrs );
+				$product->save();
+				$log[] = $id;
+			}
+		}
+		update_option( 'wf_shop_infos_attr_fix_log', array( 'time' => current_time( 'mysql' ), 'products' => $log ), false );
+	},
+	99
+);
+
+/* ---------------------------------------------------------------------
+ * 4) Englische Standard-Beschriftungen der Preisbox (Gravity Forms Product Add-ons)
+ *    auf Deutsch – nur wenn dort noch der englische Standardtext steht.
+ * ------------------------------------------------------------------ */
+add_action(
+	'wp_footer',
+	function () {
+		if ( ! is_product() ) {
+			return;
+		}
+		?>
+<script id="wf-shop-infos-labels">
+(function () {
+	function fix() {
+		var map = { 'Subtotal': 'Grundpreis', 'Options': 'Optionen' };
+		document.querySelectorAll('.product_totals .gfield_label').forEach(function (l) {
+			var t = l.textContent.trim();
+			if (map[t]) { l.textContent = map[t]; }
+		});
+		document.querySelectorAll('.product_totals .wcgfpa_grand_total .price').forEach(function (p) {
+			p.childNodes.forEach(function (n) {
+				if (n.nodeType === 3 && n.textContent.trim() === 'Total') { n.textContent = 'Gesamtpreis '; }
+			});
+		});
+	}
+	if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', fix); } else { fix(); }
+})();
+</script>
 		<?php
 	},
 	100
