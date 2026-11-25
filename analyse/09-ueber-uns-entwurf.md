@@ -1,6 +1,6 @@
 # Entwurf: Seite „Über uns“
 
-Stand: 25.11.2026 · Noch nicht online, wird erst nach Freigabe veröffentlicht.
+Stand: 25.11.2026 · Als Entwurf im Shop angelegt (Seite ID 15691, `/ueber-uns/`), noch nicht veröffentlicht. Foto: Mediathek ID 15690.
 
 ---
 
@@ -52,7 +52,7 @@ Ich behandle jede Bestellung so, als wäre es ein Dekor für mein eigenes Bike.
 
 ## Mit wem ich fahre
 
-Ich arbeite mit **Gearparts24** zusammen. Lange und treu an meiner Seite waren und sind Fahrerinnen und Fahrer wie **motoninchen**, **lelix**, **mz-racing** und **thomas.wlf** – und neu dabei ist **dermopedjunge**. Danke euch für den Support!
+Lange und treu an meiner Seite waren und sind Fahrerinnen und Fahrer wie **motoninchen**, **lelix**, **mz-racing** und **thomas.wlf** – und neu dabei ist **dermopedjunge**. Danke euch für den Support!
 
 ---
 
