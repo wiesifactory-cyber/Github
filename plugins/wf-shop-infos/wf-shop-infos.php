@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Wiesi Factory Shop-Infos
  * Description: Zeigt auf Semi-Custom-Dekorseiten unter dem Preis Lieferzeit und Gratisversand-Schwelle an und lädt Kundenvideos im CusRev-Bewertungsslider erst beim Antippen (spart ca. 11 MB auf der Startseite).
- * Version: 1.1.0
+ * Version: 1.2.2
  * Author: Wiesi Factory
  */
 
@@ -177,4 +177,64 @@ add_action(
 		<?php
 	},
 	100
+);
+
+/* ---------------------------------------------------------------------
+ * 5) Handy: fixe Leiste "Preis + Jetzt gestalten" auf Produktseiten.
+ *    Erscheint, sobald der Preis aus dem Bild gescrollt ist, und verschwindet,
+ *    sobald der echte "In den Warenkorb"-Button sichtbar ist. Tippen scrollt zum
+ *    Konfigurator bzw. zum Warenkorb-Button – es wird nichts automatisch bestellt.
+ * ------------------------------------------------------------------ */
+add_action(
+	'wp_footer',
+	function () {
+		if ( ! is_product() ) {
+			return;
+		}
+		global $product;
+		if ( ! $product instanceof WC_Product || ! $product->is_purchasable() ) {
+			return;
+		}
+		$is_config = (bool) get_post_meta( $product->get_id(), '_gravity_form_data', true );
+		$label     = $is_config ? 'Jetzt gestalten' : 'In den Warenkorb';
+		?>
+<div id="wf-sticky-buy" aria-hidden="true">
+	<div class="wf-sb-price"><?php echo wp_kses_post( $product->get_price_html() ); ?></div>
+	<button type="button" class="wf-sb-btn"><?php echo esc_html( $label ); ?> ↓</button>
+</div>
+<style id="wf-sticky-buy-css">
+#wf-sticky-buy{display:none}
+@media (max-width:767px){
+	#wf-sticky-buy{display:flex;position:fixed;left:8px;right:8px;bottom:78px;z-index:9990;align-items:center;justify-content:space-between;gap:10px;
+		padding:10px 12px;background:#fff;border-radius:14px;box-shadow:0 6px 24px rgba(0,0,0,.18);transform:translateY(160%);transition:transform .25s ease}
+	#wf-sticky-buy.is-on{transform:none}
+	#wf-sticky-buy .wf-sb-price{font-weight:700;color:#2475C9;font-size:16px;line-height:1.1}
+	#wf-sticky-buy .wf-sb-price small{display:none}
+	#wf-sticky-buy .wf-sb-btn{background:#2475C9;color:#fff;border:0;border-radius:10px;padding:12px 16px;font-weight:700;font-size:15px;white-space:nowrap}
+	body.wf-sb-on .chaty-widget, body.wf-sb-on .chaty-i-trigger{bottom:150px !important}
+}
+</style>
+<script id="wf-sticky-buy-js">
+(function(){
+	var bar=document.getElementById('wf-sticky-buy'); if(!bar||!('IntersectionObserver' in window)) return;
+	var price=document.querySelector('.summary .price');
+	var buy=document.querySelector('.summary form.cart .single_add_to_cart_button, .summary .single_add_to_cart_button');
+	var target=document.querySelector('.summary .gform_wrapper') || buy || document.querySelector('.summary form.cart');
+	var priceGone=false, buyVisible=false;
+	function update(){ var on=priceGone && !buyVisible; bar.classList.toggle('is-on',on); document.body.classList.toggle('wf-sb-on',on); }
+	if(price){ new IntersectionObserver(function(e){ priceGone=!e[0].isIntersecting && e[0].boundingClientRect.top<0; update(); }).observe(price); }
+	if(buy){ new IntersectionObserver(function(e){ buyVisible=e[0].isIntersecting; update(); }).observe(buy); }
+	var btn=bar.querySelector('.wf-sb-btn'), startLabel=btn.textContent;
+	function inConfig(){ return target && buy && target!==buy && target.getBoundingClientRect().top<-400; }
+	window.addEventListener('scroll',function(){ btn.textContent = inConfig() ? 'Zum Warenkorb ↓' : startLabel; },{passive:true});
+	btn.addEventListener('click',function(){
+		var t = inConfig() ? buy : target; if(!t) return;
+		var y=t.getBoundingClientRect().top+window.pageYOffset-(t===buy ? window.innerHeight/2 : 120);
+		window.scrollTo({top:y,behavior:'smooth'});
+	});
+})();
+</script>
+		<?php
+	},
+	101
 );
