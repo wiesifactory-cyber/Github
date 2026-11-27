@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Wiesi Factory Versandklasse (Hilfsplugin)
  * Description: Liest Versandklassen und Konfigurator-Produkte aus (nur mit geheimem Schlüssel). Wird nach der Umstellung wieder entfernt.
- * Version: 0.3.0
+ * Version: 0.4.0
  * Author: Wiesi Factory
  */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -57,6 +57,35 @@ add_action( 'init', function () {
 	update_option( 'wf_vk_assign2_log', array( 'time' => current_time( 'mysql' ), 'geaendert_vorher' => $log ), false );
 }, 99 );
 
+/* Einmalig: nur noch an Österreich + EU verkaufen, Versandzone Schweiz entfernen. Alte Werte in wf_vk_countries_backup. */
+add_action( 'init', function () {
+	if ( get_option( 'wf_vk_countries_done' ) || ! class_exists( 'WC_Shipping_Zones' ) ) { return; }
+	update_option( 'wf_vk_countries_done', 1, false );
+	$backup = array(
+		'woocommerce_allowed_countries'          => get_option( 'woocommerce_allowed_countries' ),
+		'woocommerce_specific_allowed_countries' => get_option( 'woocommerce_specific_allowed_countries' ),
+		'woocommerce_all_except_countries'       => get_option( 'woocommerce_all_except_countries' ),
+		'woocommerce_ship_to_countries'          => get_option( 'woocommerce_ship_to_countries' ),
+		'woocommerce_specific_ship_to_countries' => get_option( 'woocommerce_specific_ship_to_countries' ),
+		'zone_ch'                                => null,
+	);
+	$countries = array( 'AT', 'BE', 'BG', 'CY', 'CZ', 'DE', 'DK', 'EE', 'ES', 'FI', 'FR', 'GR', 'HR', 'HU', 'IE', 'IT', 'LT', 'LU', 'LV', 'MT', 'NL', 'PL', 'PT', 'RO', 'SE', 'SI', 'SK' );
+	update_option( 'woocommerce_allowed_countries', 'specific' );
+	update_option( 'woocommerce_specific_allowed_countries', $countries );
+	update_option( 'woocommerce_ship_to_countries', '' ); // = an alle Verkaufsländer liefern.
+	foreach ( WC_Shipping_Zones::get_zones() as $z ) {
+		$zone = new WC_Shipping_Zone( $z['zone_id'] );
+		$codes = array_map( function ( $l ) { return $l->code; }, $zone->get_zone_locations() );
+		if ( array( 'CH' ) === $codes ) {
+			$m = array();
+			foreach ( $zone->get_shipping_methods() as $meth ) { $m[] = array( 'id' => $meth->id, 'enabled' => $meth->enabled, 'settings' => $meth->instance_settings ); }
+			$backup['zone_ch'] = array( 'name' => $zone->get_zone_name(), 'order' => $zone->get_zone_order(), 'methods' => $m );
+			$zone->delete();
+		}
+	}
+	update_option( 'wf_vk_countries_backup', $backup, false );
+}, 99 );
+
 function wf_vk_info() {
 	global $wpdb;
 	$out = array( 'classes' => array(), 'zones' => array(), 'products' => array() );
@@ -92,5 +121,7 @@ function wf_vk_info() {
 		if ( $p->is_type( 'variable' ) ) { foreach ( $p->get_children() as $vid ) { $v = wc_get_product( $vid ); $row['var'][ $vid ] = $v ? $v->get_shipping_class() : '?'; } }
 		$out['sitz'][ $id ] = $row;
 	}
+	$out['countries'] = array( get_option( 'woocommerce_allowed_countries' ), get_option( 'woocommerce_specific_allowed_countries' ), get_option( 'woocommerce_ship_to_countries' ) );
+	$out['countries_backup'] = get_option( 'wf_vk_countries_backup' );
 	return $out;
 }
