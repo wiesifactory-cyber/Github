@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Wiesi Factory Versandklasse (Hilfsplugin)
  * Description: Liest Versandklassen und Konfigurator-Produkte aus (nur mit geheimem Schlüssel). Wird nach der Umstellung wieder entfernt.
- * Version: 0.2.0
+ * Version: 0.3.0
  * Author: Wiesi Factory
  */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -34,6 +34,29 @@ add_action( 'init', function () {
 	update_option( 'wf_vk_assign_log', array( 'time' => current_time( 'mysql' ), 'vorher' => $log ), false );
 }, 99 );
 
+/* Einmalig: alle Sitzbezüge (inkl. Varianten) auf PM 70. Varianten mit eigener Klasse -> "wie Hauptprodukt". */
+add_action( 'init', function () {
+	if ( get_option( 'wf_vk_assign2_done' ) || ! function_exists( 'wc_get_product' ) ) { return; }
+	update_option( 'wf_vk_assign2_done', 1, false );
+	$term = get_term_by( 'slug', 'pm-70', 'product_shipping_class' );
+	$cat  = get_term_by( 'name', 'Sitzbezüge', 'product_cat' );
+	if ( ! $term || ! $cat ) { return; }
+	$ids = array_unique( array_merge( array_map( 'intval', get_objects_in_term( $cat->term_id, 'product_cat' ) ), array( 15695 ) ) );
+	$log = array();
+	foreach ( $ids as $id ) {
+		$p = wc_get_product( $id );
+		if ( ! $p || $p->is_type( 'external' ) ) { continue; }
+		if ( $p->get_shipping_class() !== 'pm-70' ) { $log[ $id ] = $p->get_shipping_class(); $p->set_shipping_class_id( $term->term_id ); $p->save(); }
+		if ( $p->is_type( 'variable' ) ) {
+			foreach ( $p->get_children() as $vid ) {
+				$v = wc_get_product( $vid );
+				if ( $v && $v->get_shipping_class_id( 'edit' ) ) { $log[ $vid ] = $v->get_shipping_class(); $v->set_shipping_class_id( 0 ); $v->save(); }
+			}
+		}
+	}
+	update_option( 'wf_vk_assign2_log', array( 'time' => current_time( 'mysql' ), 'geaendert_vorher' => $log ), false );
+}, 99 );
+
 function wf_vk_info() {
 	global $wpdb;
 	$out = array( 'classes' => array(), 'zones' => array(), 'products' => array() );
@@ -61,5 +84,13 @@ function wf_vk_info() {
 	}
 	$out['assign_log'] = get_option( 'wf_vk_assign_log' );
 	foreach ( array( 13769, 15583, 15695 ) as $id ) { $p = wc_get_product( $id ); if ( $p ) { $out['check'][ $id ] = array( $p->get_name(), $p->get_shipping_class() ); } }
+	$out['assign2_log'] = get_option( 'wf_vk_assign2_log' );
+	$cat = get_term_by( 'name', 'Sitzbezüge', 'product_cat' );
+	foreach ( array_unique( array_merge( array_map( 'intval', get_objects_in_term( $cat->term_id, 'product_cat' ) ), array( 15695 ) ) ) as $id ) {
+		$p = wc_get_product( $id ); if ( ! $p ) { continue; }
+		$row = array( $p->get_name(), $p->get_status(), $p->get_type(), $p->get_shipping_class() );
+		if ( $p->is_type( 'variable' ) ) { foreach ( $p->get_children() as $vid ) { $v = wc_get_product( $vid ); $row['var'][ $vid ] = $v ? $v->get_shipping_class() : '?'; } }
+		$out['sitz'][ $id ] = $row;
+	}
 	return $out;
 }
